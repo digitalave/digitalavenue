@@ -132,12 +132,6 @@ collections:
       - {label: "Language", name: "language", widget: "select", options: ["en", "fr", "de", "es"], default: "en"}
       - {label: "Content", name: "content", widget: "markdown"}
 
-# Markdown editor configuration for extra features
-editor:
-  preview: true # Show live preview for Markdown
-  # Enable rich embeds, images, videos
-  rich_text: true
-
 # Custom preview styles for better layout representation
 view_styles:
   - {label: "Standard", name: "standard", preview_style: "/css/standard.css"}
