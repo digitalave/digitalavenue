@@ -1,14 +1,14 @@
 # Site
-name: "AMP Affiliately Jekyll Theme"
-title: "AMP Affiliately Jekyll Theme"
-description: "An AMP-ready Jekyll blog theme"
-url: https://chriskyfung.github.io
-baseurl: '/amp-affiliately-jekyll-theme'
-favicon: 'assets/images/favicon.png'
-logo: 'assets/images/logo-plainSVG.svg'
+name: "Digital Avenue IT"
+title: "Digital Avenue"
+description: "Digital Avenue Carefully Verified DevOps and System Admin Tutorials For Kubernetes, Docker, Jenkins, Azure, AWS, Linux and more. Learn DevOps Now."
+url: https://digitalavenue.dev
+baseurl: ''
+favicon: 'assets/images/favicon-DA.png'
+logo: 'assets/images/logo-DA.gif'
 permalink: /:year/:month/:day/:title
-paginate: 6
-timezone: 'Asia/Hong_Kong'
+paginate: 12
+timezone: 'Europe/Vienna'
 
 # Set <USERNAME>/<PROJECT> to display the button to the project
 repository: chriskyfung/amp-affiliately-jekyll-theme
@@ -16,11 +16,11 @@ repository: chriskyfung/amp-affiliately-jekyll-theme
 # Navigation features
 nav:
   buttons:
-    gh_sponsors: true # Show GitHub Sponsors button
+    gh_sponsors: false # Show GitHub Sponsors button
   global:
-    home: false
-    menu: false
-    dropdown: false # Show menu with dropdown submenu
+    home: true
+    menu: true
+    dropdown: true # Show menu with dropdown submenu
   local:
     items:
       - name: Features
@@ -29,13 +29,15 @@ nav:
         url: category/doc/
       - name: Samples
         url: category/sample/
+      - name: DevOps
+        url: category/devops/
     menu: true
     title:
       limit: 40
 
 # List Sorting
 sort_categories: false
-sort_tags: false
+sort_tags: true
 
 # Content Post-processing
 target_blank: false
@@ -52,10 +54,10 @@ sidebar:
 #   wid: 7kfz # Addthis widget id
 
 # Disqus Comments
-amp_disqus: 
-  shortname: 'chriskyfung' # Disqus shortname
-  url: 'https://chriskyfung.gitlab.io/disqus-amp/' #baseurl of your AMP disqus iframe element
-  height: 580
+# amp_disqus: 
+#   shortname: 'chriskyfung' # Disqus shortname
+#   url: 'https://chriskyfung.gitlab.io/disqus-amp/' #baseurl of your AMP disqus iframe element
+#   height: 580
 
 # Google Custom Search Engine ID
 cse_id: 011006674894885990812:tjln7k0nyjx 
@@ -100,9 +102,12 @@ script_hash:
 plugins: 
   - jekyll-archives
   - jekyll-feed
+  - jekyll-minifier
   - jekyll-github-metadata
   - jekyll-paginate
   - jekyll-redirect-from
+  - jekyll-relative-links
+  - jekyll-remote-theme
   - jekyll-seo-tag
   - jekyll-sitemap
 
@@ -119,6 +124,13 @@ jekyll-archives:
 # Other
 markdown: kramdown
 highlighter: rouge
+
+jekyll-minifier:
+  exclude: 'feed.xml' # Exclude files from processing - file name, glob pattern or array of file names and glob patterns
+
+relative_links:
+  enabled: true
+  collections: true
 
 # Directories and/or files from the conversion
 exclude:
@@ -140,7 +152,7 @@ webp:
 
   # List of directories containing images to optimize, nested directories will only be checked if `nested` is true
   # By default the generator will search for a folder called `/img` under the site root and process all jpg, png and tiff image files found there.
-  img_dir: ["/images/", "/assets/images"]
+  img_dir: ["/images/", "/assets/images", "/assets/img/"]
 
   # Whether to search in nested directories or not
   nested: true
@@ -166,3 +178,4 @@ webp:
   # Default transforms `image.png` to `image.webp`, while changing to true transforms `image.png` to `image.png.webp`
   append_ext: false
 ############################################################
+
