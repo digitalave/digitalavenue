@@ -1,25 +1,10 @@
----
-layout: null
----
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Content Manager</title>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on('init', user => {
-        if (!user) {
-          window.netlifyIdentity.on('login', () => {
-            document.location.href = '/admin/';
-          });
-        }
-      });
-    }
-  </script>
-</head>
-<body>
-  <!-- Mount the Netlify CMS interface -->
-  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
-</body>
+  <head>
+    <title>Content Manager</title>
+  </head>
+  <body>
+    <!-- Include the script that builds the Netlify CMS -->
+    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+  </body>
 </html>
