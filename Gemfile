@@ -19,11 +19,14 @@ gem "jekyll", "~> 4.2.0"
 group :jekyll_plugins do
   gem 'jekyll-archives'
   gem 'jekyll-feed'
+  gem "jekyll-github-metadata"
   gem 'jekyll-paginate'
   gem 'jekyll-redirect-from'
+  gem 'jekyll-relative-links'
+  gem 'jekyll-remote-theme'
   gem 'jekyll-seo-tag'
   gem 'jekyll-sitemap'
-  gem "jekyll-github-metadata"
+  gem 'jekyll-minifier'
 end
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem

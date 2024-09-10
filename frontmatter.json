@@ -46,5 +46,7 @@
       ]
     }
   ],
-  "frontMatter.taxonomy.modifiedField": "last_modified_at"
+  "frontMatter.taxonomy.modifiedField": "last_modified_at",
+  "frontMatter.framework.startCommand": "bundle exec jekyll serve",
+  "frontMatter.preview.host": "http://127.0.0.1:4000/amp-affiliately-jekyll-theme/"
 }
