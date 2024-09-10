@@ -1,58 +1,144 @@
-# Everything you need to know about configuring the CMS can be found here:-
-# https://www.netlifycms.org/docs/configuration-options/
-
 backend:
-  name: git-gateway # Netlify’s Git Gateway connects to Git provider’s API
-  branch: master # Branch to update (master by default)
+  name: git-gateway
+  branch: master # Branch to update
 
-media_folder: "assets/img/uploads" # Folder where user uploaded files should go
+media_folder: "assets/img/uploads" # Where uploaded media files go
+public_folder: "/assets/img/uploads" # Public URL for media files
 
-publish_mode: editorial_workflow # Enable drafts
+publish_mode: editorial_workflow # Enable drafts and workflow
 
-collections: # A list of collections the CMS should be able to edit
+slug:
+  clean_accents: true
+  sanitize_replacement: "_"
+
+# Configuration for the admin interface
+editor:
+  preview: true # Enable preview mode in the CMS
+  # Editor customization (for better UI experience)
+  preview_style: "font-size: 16px; padding: 16px; font-family: sans-serif;" 
+  editor_components:
+    - type: "youtube"
+      label: "YouTube Embed"
+      fields:
+        - {label: "Video URL", name: "url", widget: "string"}
+
+# Custom widget for embedding social metadata and SEO fields
+meta_data:
+  title: "MetaData"
+  description: "Add SEO meta tags for the page"
+  fields:
+    - {label: "SEO Title", name: "seo_title", widget: "string"}
+    - {label: "Meta Description", name: "seo_description", widget: "text"}
+    - {label: "Social Image", name: "social_image", widget: "image"}
+    - {label: "Open Graph Type", name: "og_type", widget: "select", options: ["article", "website", "blog"], default: "article"}
+
+collections:
   # POSTS
-  - name: "post" # Used in routes, ie.: /admin/collections/:slug/edit
-    label: "Post" # Used in the UI, ie.: "New Post"
-    folder: "_posts" # The path to the folder where the documents are stored
-    sort: "date:desc" # Default is title:asc
-    create: true # Allow users to create new documents in this collection
+  - name: "post"
+    label: "Posts"
+    folder: "_posts"
+    create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    fields: # The fields each document in this collection have
+    sort: "date:desc"
+    summary: "{{title}} - {{author}} ({{date}})"
+    view_filters: # Filters for better CMS management experience
+      - label: "Published"
+        field: "publish"
+        pattern: true
+    fields:
       - {label: "Layout", name: "layout", widget: "hidden", default: "post"}
-      - {label: "Title", name: "title", widget: "string", tagname: "h1"}
-      # - {label: "Meta Description", name: "meta_description", widget: "string", required: false}
-      - label: "Author"
-        name: "author"
-        widget: "select"
-        options:
-          - { label: "Dimuthu Daundasekara", value: "dimuthu_daundasekara" }
-          - { label: "John Doe", value: "john_doe" }
-      - {label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD HH:mm:ss"}
-      # - {label: "Intro Paragraph", name: "intro_paragraph", widget: "markdown", required: false}
-      - {label: "Body", name: "body", widget: "markdown", required: false}
-      # - {label: "Categories", name: "categories", widget: "string", required: false}
-      - label: "Categories"
-        name: "category"
-        widget: "select"
-        options:
-          - { label: "DevOps", value: "devops" }
-          - { label: "Linux", value: "linux" }
-          - { label: "Jenkins", value: "jenkins" }
-      - {label: "Permalink", name: "permalink", widget: "hidden"}
-      - {label: "Intro Paragraph", name: "excerpt", widget: "markdown", required: false}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Subtitle", name: "subtitle", widget: "string", required: false}
+      - {label: "Author", name: "author", widget: "relation", collection: "authors", searchFields: ["name"], valueField: "name"}
+      - {label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", default: "now"}
+      - {label: "Tags", name: "tags", widget: "list", default: [], allow_add: true}
+      - {label: "Categories", name: "categories", widget: "list", allow_add: true}
+      - {label: "Featured Image", name: "featured_image", widget: "image"}
+      - {label: "Gallery", name: "gallery", widget: "list", required: false, field: {label: "Image", name: "image", widget: "image"}}
+      - {label: "Body", name: "body", widget: "markdown"}
+      - {label: "SEO Metadata", name: "meta_data", widget: "object", fields: [{label: "Title", name: "seo_title", widget: "string"}, {label: "Description", name: "seo_description", widget: "text"}]}
+      - {label: "Allow Comments", name: "comments", widget: "boolean", default: true}
+      - {label: "Language", name: "language", widget: "select", options: ["en", "fr", "de", "es"], default: "en"}
+      - {label: "Permalink", name: "permalink", widget: "string", default: "/{{year}}/{{month}}/{{day}}/{{slug}}/"}
 
-    # PAGES
+  # PAGES
   - name: "page"
-    label: "Page"
-    folder: "pages"
-    sort: "title:asc"
-    create: false
+    label: "Pages"
+    folder: "_pages"
+    create: true
     slug: "{{slug}}"
     fields:
       - {label: "Layout", name: "layout", widget: "hidden", default: "page"}
-      - {label: "Title", name: "title", widget: "string", tagname: "h1"}
-      - {label: "Meta Description", name: "meta_description", widget: "string", required: false}
-      - {label: "Permalink", name: "permalink", widget: "hidden"}
-      - {label: "Section", name: "section", widget: "hidden", default: "{{name}}"}
-      - {label: "Intro Paragraph", name: "intro_paragraph", widget: "markdown", required: false}
-      - {label: "Body", name: "body", widget: "markdown", required: false}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Meta Description", name: "meta_description", widget: "text", required: false}
+      - {label: "Body", name: "body", widget: "markdown"}
+      - {label: "Featured Image", name: "featured_image", widget: "image", required: false}
+      - {label: "SEO Title", name: "seo_title", widget: "string", required: false}
+      - {label: "SEO Description", name: "seo_description", widget: "text", required: false}
+      - {label: "Permalink", name: "permalink", widget: "string", default: "/{{slug}}/"}
+      - {label: "Page Template", name: "template", widget: "select", options: ["default", "home", "about", "contact"], default: "default"}
+      - {label: "Published", name: "published", widget: "boolean", default: true}
+
+  # AUTHORS
+  - name: "authors"
+    label: "Authors"
+    folder: "_authors"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Name", name: "name", widget: "string"}
+      - {label: "Bio", name: "bio", widget: "text", required: false}
+      - {label: "Profile Picture", name: "profile_picture", widget: "image"}
+      - {label: "Twitter Handle", name: "twitter", widget: "string", required: false}
+      - {label: "LinkedIn", name: "linkedin", widget: "string", required: false}
+
+  # CATEGORIES
+  - name: "category"
+    label: "Categories"
+    folder: "_categories"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "text", required: false}
+
+  # IMAGES (Media library for uploads)
+  - name: "images"
+    label: "Images"
+    media_folder: "assets/img/uploads"
+    public_folder: "/assets/img/uploads"
+    fields:
+      - {label: "File", name: "file", widget: "file"}
+
+  # COMMENTS (Managing comments separately)
+  - name: "comments"
+    label: "Comments"
+    folder: "_comments"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Post", name: "post", widget: "relation", collection: "post", searchFields: ["title"], valueField: "title"}
+      - {label: "Name", name: "name", widget: "string"}
+      - {label: "Email", name: "email", widget: "string"}
+      - {label: "Comment", name: "comment", widget: "text"}
+
+  # MULTI-LANGUAGE SUPPORT
+  - name: "translations"
+    label: "Translations"
+    folder: "_translations"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Language", name: "language", widget: "select", options: ["en", "fr", "de", "es"], default: "en"}
+      - {label: "Content", name: "content", widget: "markdown"}
+
+# Markdown editor configuration for extra features
+editor:
+  preview: true # Show live preview for Markdown
+  # Enable rich embeds, images, videos
+  rich_text: true
+
+# Custom preview styles for better layout representation
+view_styles:
+  - {label: "Standard", name: "standard", preview_style: "/css/standard.css"}
+  - {label: "Minimal", name: "minimal", preview_style: "/css/minimal.css"}
